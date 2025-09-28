@@ -1,0 +1,5 @@
+import {initDB} from "./_core/db";
+
+export function register(){
+ initDB();
+}
