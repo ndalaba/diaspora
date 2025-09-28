@@ -1,6 +1,6 @@
-import AbstractEntity from '../shared/abstract.entity'
+import AbstractEntity from '../../entities/AbstractEntity'
 import { Column, Entity, OneToMany } from 'typeorm'
-import User from '../users/user.entity'
+import User from '../../entities/User'
 import Association from '../associations/association.entity'
 
 @Entity('countries')

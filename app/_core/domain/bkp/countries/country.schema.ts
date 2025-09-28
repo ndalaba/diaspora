@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import User from '../users/user.entity'
+import User from '../../entities/User'
 
 export const UpdateCountrySchema = z.object({
   code: z.string().max(3),

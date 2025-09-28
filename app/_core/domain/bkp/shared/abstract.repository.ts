@@ -1,5 +1,5 @@
 import DataSource from '../../core/db'
-import AbstractEntity from './abstract.entity'
+import AbstractEntity from '../../entities/AbstractEntity'
 import { EntityTarget, Repository } from 'typeorm'
 
 export default abstract class AbstractRepository<T extends AbstractEntity> {

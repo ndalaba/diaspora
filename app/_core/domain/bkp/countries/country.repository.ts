@@ -1,7 +1,7 @@
 import AbstractRepository from '../shared/abstract.repository'
 import Country from './country.entity'
 import Association from '../associations/association.entity'
-import User from '../users/user.entity'
+import User from '../../entities/User'
 
 export class CountryRepository extends AbstractRepository<Country> {
   constructor() {

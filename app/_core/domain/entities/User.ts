@@ -1,6 +1,6 @@
-import AbstractEntity from '../shared/abstract.entity'
+import AbstractEntity from './AbstractEntity'
 import Association from '../associations/association.entity'
-import Country from '../countries/country.entity'
+import Country from '../bkp/countries/country.entity'
 
 export class Role {
   public static ROLE_USER = 10

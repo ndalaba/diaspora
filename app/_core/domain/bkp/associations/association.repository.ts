@@ -1,7 +1,7 @@
 import AbstractRepository from '../shared/abstract.repository'
 import { FilterAssociationDto } from './association.schema'
 import Association, { AssociationMember } from './association.entity'
-import User from '../users/user.entity'
+import User from '../../entities/User'
 
 export default class AssociationRepository extends AbstractRepository<Association> {
   constructor() {

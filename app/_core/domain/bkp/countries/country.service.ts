@@ -1,7 +1,7 @@
 import { CountryRepository } from './country.repository'
 import { CreateCountryDto, UpdateCountryDto } from './country.schema'
-import Response from '../../utils/response.utils'
-import { tryCatch } from '../../utils/functions.utils'
+import Response from '../../../utils/response.utils'
+import { tryCatch } from '../../../utils/functions.utils'
 import Country from './country.entity'
 
 export default class CountryService {

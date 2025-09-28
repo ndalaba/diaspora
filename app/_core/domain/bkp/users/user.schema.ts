@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import User from './user.entity'
+import User from '../../entities/User'
 
 export const GetUserSchema = z.object({
   uid: z.string()

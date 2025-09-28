@@ -1,8 +1,8 @@
 // @ts-ignore
 import path from 'path'
-import loggerUtils from '../../utils/logger.utils'
-import StatusCode from '../../utils/statusCode.utils'
-import { Token } from '../users/user.entity'
+import loggerUtils from '../../../utils/logger.utils'
+import StatusCode from '../../../utils/statusCode.utils'
+import { Token } from '../../entities/User'
 import * as cookie from 'cookie'
 
 export default abstract class AbstractController {

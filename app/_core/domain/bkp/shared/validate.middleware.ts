@@ -1,6 +1,6 @@
 import { AnyZodObject, ZodError } from 'zod'
-import Response from '../../utils/response.utils'
-import StatusCode from '../../utils/statusCode.utils'
+import Response from '../../../utils/response.utils'
+import StatusCode from '../../../utils/statusCode.utils'
 
 export const validate =
   (schema: AnyZodObject) => async (req: Request, res: ExpressResponse, next: NextFunction) => {

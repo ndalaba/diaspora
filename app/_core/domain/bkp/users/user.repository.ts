@@ -1,6 +1,6 @@
 import DataSource from '../../core/db'
 import AbstractRepository from '../shared/abstract.repository'
-import User, { Token } from './user.entity'
+import User, { Token } from '../../entities/User'
 import { FilterUserDto } from './user.schema'
 
 export class UserRepository extends AbstractRepository<User> {
