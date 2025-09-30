@@ -1,21 +1,20 @@
 import { generateUid } from '../../utils/string.utils'
 
 export default abstract class AbstractEntity {
-  id?: number
-  uid: string
+  id: string
   createdAt: Date
   updatedAt: Date
 
   constructor(props: Partial<AbstractEntity>) {
     Object.assign(this, props)
 
-    this.uid = props.uid ?? generateUid()
+    this.id = props.id ?? generateUid()
     this.createdAt = props.createdAt ?? new Date()
     this.updatedAt = props.updatedAt ?? new Date()
   }
 
-  is(uid: string): boolean {
-    return this.uid === uid
+  is(id: string): boolean {
+    return this.id === id
   }
 
   touch(): this {
@@ -30,6 +29,6 @@ export default abstract class AbstractEntity {
   }
 
   toString(): string {
-    return `${this.constructor.name} (uid:${this.uid})`
+    return `${this.constructor.name} (id:${this.id})`
   }
 }

@@ -1,24 +1,24 @@
-import { UserRepository } from './user.repository'
+import { UserRepository } from '../../../infrastructure/db/user.repository'
 import Response from '../../../utils/response.utils'
 import { tryCatch } from '../../../utils/functions.utils'
 import { NotAllowedError } from '../../../utils/errors.utils'
 import User from '../../entities/User'
 import { removeFile } from '../../../utils/file.utils'
 import { CreateUserDto, FilterUserDto, GetUserDto, UpdateUserDto } from './user.schema'
-import { CountryRepository } from '../countries/country.repository'
+import { CountryRepository } from '../../../infrastructure/db/country.repository'
 import Country from '../countries/country.entity'
 import { UpdateImage } from '../shared/shared.schema'
-import AssociationRepository, {
-  AssociationMemberRepository
-} from '../associations/association.repository'
-import Association, { AssociationMember } from '../associations/association.entity'
+import OrganisationRepository, {
+  OrganisationMemberRepository
+} from '../organisations/organisation.repository'
+import Organisation, { OrganisationMember } from '../organisations/organisation.entity'
 import * as bcrypt from 'bcrypt'
 
 export default class UserService {
   constructor(
     private readonly userRepo: UserRepository = new UserRepository(),
-    private readonly associationRepo: AssociationRepository = new AssociationRepository(),
-    private readonly associationMemberRepo: AssociationMemberRepository = new AssociationMemberRepository(),
+    private readonly organisationRepo: OrganisationRepository = new OrganisationRepository(),
+    private readonly organisationMemberRepo: OrganisationMemberRepository = new OrganisationMemberRepository(),
     private readonly countryRepo: CountryRepository = new CountryRepository()
   ) {}
 
@@ -66,14 +66,14 @@ export default class UserService {
       user.image = 'users/user.png'
       user.password = await bcrypt.hash(user.password, 6)
       user = (await this.userRepo.save(user)) as User
-      let association: Association = null
-      if (dto.association_uid !== undefined && dto.association_uid !== '') {
-        association = (await this.associationRepo.getOrFail(dto.association_uid)) as Association
-        const associationMember = new AssociationMember({
+      let organisation: Organisation = null
+      if (dto.organisation_uid !== undefined && dto.organisation_uid !== '') {
+        organisation = (await this.organisationRepo.getOrFail(dto.organisation_uid)) as Organisation
+        const organisationMember = new OrganisationMember({
           member: user,
-          association: association
+          organisation: organisation
         })
-        await this.associationMemberRepo.save(associationMember)
+        await this.organisationMemberRepo.save(organisationMember)
       }
       return new Response().addData('user', user)
     }, dto.email)
@@ -117,8 +117,8 @@ export default class UserService {
 
   async filterUsers(dto: FilterUserDto): Promise<Response> {
     return tryCatch(async (_) => {
-      const association = (await this.associationRepo.getOrFail(dto.association_uid)) as Association
-      dto.association_id = association.id
+      const organisation = (await this.organisationRepo.getOrFail(dto.organisation_uid)) as Organisation
+      dto.organisation_id = organisation.id
       const users = await this.userRepo.filter(dto)
       return new Response().addData('users', users)
     })
@@ -126,8 +126,8 @@ export default class UserService {
 
   async filterWithSections(dto: FilterUserDto): Promise<Response> {
     return tryCatch(async (_) => {
-      const association = (await this.associationRepo.getOrFail(dto.association_uid)) as Association
-      dto.association_id = association.id
+      const organisation = (await this.organisationRepo.getOrFail(dto.organisation_uid)) as Organisation
+      dto.organisation_id = organisation.id
       const users = await this.userRepo.filterWithSections(dto)
       return new Response().addData('users', users)
     })

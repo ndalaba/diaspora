@@ -1,5 +1,5 @@
-import { z } from 'zod'
-import User from '../../entities/User'
+import * as z from 'zod'
+import User from '../../domain/entities/User'
 
 export const UpdateImageSchema = z.object({
   uid: z.string(),

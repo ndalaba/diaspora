@@ -1,7 +1,7 @@
-import AbstractRepository from '../shared/abstract.repository'
+import AbstractRepository from './abstract.repository'
 import Country from './country.entity'
-import Association from '../associations/association.entity'
-import User from '../../entities/User'
+import Organisation from '../organisations/organisation.entity'
+import User from '../../domain/entities/User'
 
 export class CountryRepository extends AbstractRepository<Country> {
   constructor() {
@@ -28,16 +28,16 @@ export class CountryRepository extends AbstractRepository<Country> {
       .getOne()
   }
 
-  async countAssociations<T>(value: T): Promise<number> {
-    const query = this.getRepository<Association>(Association)
-      .createQueryBuilder('associations')
-      .select('COUNT(associations.id)')
+  async countOrganisations<T>(value: T): Promise<number> {
+    const query = this.getRepository<Organisation>(Organisation)
+      .createQueryBuilder('organisations')
+      .select('COUNT(organisations.id)')
 
-    if (value instanceof Country) query.where('associations.country_id = :id', { id: value.id })
-    else if (typeof value === 'number') query.where('associations.country_id = :id', { id: value })
+    if (value instanceof Country) query.where('organisations.country_id = :id', { id: value.id })
+    else if (typeof value === 'number') query.where('organisations.country_id = :id', { id: value })
     else if (typeof value === 'string') {
       const country = await this.getOrFail(value)
-      query.where('associations.country_id = :id', { id: country.id })
+      query.where('organisations.country_id = :id', { id: country.id })
     }
     return query.getCount()
   }

@@ -19,7 +19,7 @@ export default class UsersController extends AbstractController {
       const response = await this.userService.filterWithSections({
         user: res.locals.user,
         ...req.query,
-        association_uid: req.query.assos as string
+        organisation_uid: req.query.assos as string
       })
       return response.hasError()
         ? this.errorResponse(res, response.jsonErrors())
@@ -44,7 +44,7 @@ export default class UsersController extends AbstractController {
       const response = await this.userService.filterUsers({
         user: res.locals.user,
         ...req.query,
-        association_uid: req.query.assos as string
+        organisation_uid: req.query.assos as string
       })
       return response.hasError()
         ? this.errorResponse(res, response.jsonErrors())

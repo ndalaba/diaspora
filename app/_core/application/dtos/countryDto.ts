@@ -1,10 +1,10 @@
-import { z } from 'zod'
-import User from '../../entities/User'
+import * as z from 'zod'
+import User from '../../domain/entities/User'
 
 export const UpdateCountrySchema = z.object({
   code: z.string().max(3),
   name: z.string(),
-  uid: z.string()
+  id: z.string()
 })
 
 export const CreateCountrySchema = z.object({

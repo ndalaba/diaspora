@@ -1,9 +1,9 @@
 import { Request, Response, Router } from 'express'
-import { validate } from '../shared/validate.middleware'
+import { validate } from '../../../domain/bkp/shared/validate.middleware'
 import { CreateCountrySchema, UpdateCountrySchema } from './country.schema'
 import StatusCodeUtils from '../../../utils/statusCode.utils'
-import CountryService from './country.service'
-import AbstractController from '../shared/abstract.controller'
+import CountryService from '../../../domain/bkp/countries/country.service'
+import AbstractController from '../../../domain/bkp/shared/abstract.controller'
 import { adminMiddleware } from '../auths/auth.middleware'
 
 export default class CountriesController extends AbstractController {

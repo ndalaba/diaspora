@@ -1,6 +1,6 @@
 import AbstractEntity from './AbstractEntity'
-import Association from '../associations/association.entity'
-import Country from '../bkp/countries/country.entity'
+import Organisation from './Organisation'
+import Country from './Country'
 
 export class Role {
   public static ROLE_USER = 10
@@ -30,10 +30,9 @@ export class Gender {
 }
 
 export class Token extends AbstractEntity {
-
- token!: string
- expireDate!: Date
- user!: Partial<User>
+  token!: string
+  expireDate!: Date
+  user!: Partial<User>
 
   constructor(props: Partial<Token>) {
     super(props)
@@ -59,7 +58,7 @@ export default class User extends AbstractEntity {
   token?: Token
   creator?: User
   password?: string
-  associations?: Association[]
+  organisations?: Organisation[]
   country?: Country
   image?: string
 
@@ -80,18 +79,18 @@ export default class User extends AbstractEntity {
     return this.hasRole(Role.ROLE_ADMIN) || this.hasRole(Role.ROLE_SUPER_ADMIN)
   }
 
-  hasCreator(uid: string): boolean {
-    return this.creator?.is(uid) || false
+  hasCreator(id: string): boolean {
+    return this.creator?.is(id) || false
   }
 
   isMemberOf(orgId: string): boolean {
-    return this.associations?.some(m => m.uid === orgId) || false
+    return this.organisations?.some((m) => m.id === orgId) || false
   }
 
-  canManage(uid: string): boolean {
+  canManage(id: string): boolean {
     return (
-      this.is(uid) ||
-      this.hasCreator(uid) ||
+      this.is(id) ||
+      this.hasCreator(id) ||
       this.hasAnyRole([Role.ROLE_ADMIN, Role.ROLE_SUPER_ADMIN])
     )
   }

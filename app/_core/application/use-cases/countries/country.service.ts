@@ -1,4 +1,4 @@
-import { CountryRepository } from './country.repository'
+import { CountryRepository } from '../../../infrastructure/db/country.repository'
 import { CreateCountryDto, UpdateCountryDto } from './country.schema'
 import Response from '../../../utils/response.utils'
 import { tryCatch } from '../../../utils/functions.utils'
@@ -19,9 +19,9 @@ export default class CountryService {
       const usersCount = await this.countryRepo.countUsers<string>(uid)
       if (usersCount > 0) return new Response().addError('has_users', 'This country has users')
 
-      const associationsCount = await this.countryRepo.countAssociations<string>(uid)
-      if (associationsCount > 0)
-        return new Response().addError('has_associations', 'This country has associations')
+      const organisationsCount = await this.countryRepo.countOrganisations<string>(uid)
+      if (organisationsCount > 0)
+        return new Response().addError('has_organisations', 'This country has organisations')
 
       await this.countryRepo.deleteBy('uid', uid)
       return new Response()

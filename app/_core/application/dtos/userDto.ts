@@ -1,27 +1,26 @@
-import { z } from 'zod'
-import User from '../../entities/User'
+import * as z from "zod"
+import User from '../../domain/entities/User'
+
+const MIN_AGE = 16
 
 export const GetUserSchema = z.object({
-  uid: z.string()
+  id: z.string()
 })
 
 export const FilterUserSchema = z.object({
   country_id: z.number().nullable(),
-  association_id: z.number().nullable(),
-  association_uid: z.string(),
-  email: z.string().email().nullable(),
+  organisation_id: z.number().nullable(),
+  email: z.email().nullable(),
   phone: z.string().nullable(),
-  firstName: z.string().nullable(),
-  lastName: z.string().nullable(),
+  name: z.string().nullable(),
   city: z.string().nullable(),
   page: z.number().default(1)
 })
 
 export const CreateUserSchema = z.object({
-  association_uid: z.optional(z.string()),
-  email: z.string().email(),
-  firstName: z.string().min(3),
-  lastName: z.string().min(3),
+  organisation_id: z.optional(z.string()),
+  email: z.email(),
+  name: z.string().min(3),
   password: z.string().min(6),
   phone: z.optional(z.string()),
   profession: z.optional(z.string()),
@@ -36,16 +35,14 @@ export const CreateUserSchema = z.object({
     z
       .number()
       .min(1930)
-      .max(new Date().getFullYear() - +process.env.MIN_AGE)
+      .max(new Date().getFullYear() - MIN_AGE)
   )
 })
 
 export const UpdateUserSchema = z.object({
-  uid: z.string(),
-  id: z.number(),
+  id: z.string(),
   email: z.string().nullable(),
-  firstName: z.string().min(3),
-  lastName: z.string().min(3),
+  name: z.string().min(3),
   phone: z.optional(z.string()),
   profession: z.optional(z.string()),
   address: z.optional(z.string()),
@@ -59,12 +56,12 @@ export const UpdateUserSchema = z.object({
     z
       .number()
       .min(1930)
-      .max(new Date().getFullYear() - +process.env.MIN_AGE)
+      .max(new Date().getFullYear() - 18)
   )
 })
 
 export const LoginSchema = z.object({
-  email: z.string().email(),
+  email: z.email(),
   password: z.string().min(6)
 })
 

@@ -1,7 +1,7 @@
 import DataSource from '../../core/db'
-import AbstractRepository from '../shared/abstract.repository'
-import User, { Token } from '../../entities/User'
-import { FilterUserDto } from './user.schema'
+import AbstractRepository from './abstract.repository'
+import User, { Token } from '../../domain/entities/User'
+import { FilterUserDto } from '../../domain/bkp/users/user.schema'
 
 export class UserRepository extends AbstractRepository<User> {
   constructor() {
@@ -30,14 +30,14 @@ export class UserRepository extends AbstractRepository<User> {
     const query = this.repository
       .createQueryBuilder('users')
       .innerJoin(
-        'association_members',
-        'association_members',
-        'association_members.user_id = users.id'
+        'organisation_members',
+        'organisation_members',
+        'organisation_members.user_id = users.id'
       )
       .innerJoin(
-        'associations',
-        'associations',
-        'association_members.association_id = associations.id'
+        'organisations',
+        'organisations',
+        'organisation_members.organisation_id = organisations.id'
       )
       .leftJoinAndSelect('users.country', 'countries')
     if (dto.email && dto.email.trim().length)
@@ -67,8 +67,8 @@ export class UserRepository extends AbstractRepository<User> {
         })
     }
 
-    query.andWhere('associations.id = :association_id', {
-      association_id: dto.association_id
+    query.andWhere('organisations.id = :organisation_id', {
+      organisation_id: dto.organisation_id
     })
 
     return query.getMany()
@@ -78,19 +78,19 @@ export class UserRepository extends AbstractRepository<User> {
     const query = this.repository
       .createQueryBuilder('users')
       .innerJoin(
-        'association_members',
-        'association_members',
-        'association_members.user_id = users.id'
+        'organisation_members',
+        'organisation_members',
+        'organisation_members.user_id = users.id'
       )
       .innerJoin(
-        'associations',
-        'associations',
-        'association_members.association_id = associations.id'
+        'organisations',
+        'organisations',
+        'organisation_members.organisation_id = organisations.id'
       )
       .innerJoinAndSelect('users.sections', 'sections')
 
-    query.andWhere('associations.id = :association_id', {
-      association_id: dto.association_id
+    query.andWhere('organisations.id = :organisation_id', {
+      organisation_id: dto.organisation_id
     })
 
     return query.getMany()
