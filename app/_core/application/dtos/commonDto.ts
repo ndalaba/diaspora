@@ -2,7 +2,7 @@ import * as z from 'zod'
 import User from '../../domain/entities/User'
 
 export const UpdateImageSchema = z.object({
-  uid: z.string(),
+  id: z.string(),
   image: z.any()
 })
 

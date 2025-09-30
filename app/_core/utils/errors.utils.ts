@@ -39,3 +39,17 @@ export class NotAllowedError extends Error {
     Object.setPrototypeOf(this, NotFoundError.prototype)
   }
 }
+
+export class AlreadyExistsError extends Error {
+  constructor(m: string = 'Already exists') {
+    super(m)
+    Object.setPrototypeOf(this, NotFoundError.prototype)
+  }
+}
+
+export class ValidationError extends Error {
+  constructor(m: string = 'Validation error') {
+    super(m)
+    Object.setPrototypeOf(this, NotFoundError.prototype)
+  }
+}

@@ -47,7 +47,7 @@ export const UpdateUserSchema = z.object({
   profession: z.optional(z.string()),
   address: z.optional(z.string()),
   city: z.optional(z.string()),
-  country_id: z.number().nullable(),
+  country_id: z.string().nullable(),
   about: z.optional(z.string()),
   gender: z.optional(z.number().max(1).min(0)),
   birthDay: z.optional(z.number().min(1).max(31)),
