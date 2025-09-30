@@ -11,7 +11,7 @@ const loggerUtils = createLogger({
   level: 'debug',
   format: format.combine(format.label({ label: ':)!' }), format.timestamp(), myFormat),
   transports: [
-    process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'test'
+    process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
       ? new transports.Console()
       : new transports.File({ filename: 'app_log.log' })
   ]

@@ -1,6 +1,6 @@
 import * as crypto from 'crypto'
 
-export function generateUid(length: number = 30): string {
+export function generateUid(): string {
   return crypto.randomUUID()
 }
 

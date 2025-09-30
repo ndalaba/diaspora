@@ -26,7 +26,11 @@ export default class OrganisationService {
   ) {}
 
   async updateOrganisationLogo(dto: UpdateImage): Promise<Response> {
-    const canUpdate = (organisation: Organisation, loggedUser: User, response: Response): boolean => {
+    const canUpdate = (
+      organisation: Organisation,
+      loggedUser: User,
+      response: Response
+    ): boolean => {
       if (!organisation.canManage(loggedUser)) {
         response.addError('denied', 'Organisation cannot be updated.')
         return false
@@ -94,7 +98,11 @@ export default class OrganisationService {
   }
 
   async updateOrganisation(dto: UpdateOrganisationDto): Promise<Response> {
-    const canUpdate = (organisation: Organisation, loggedUser: User, response: Response): boolean => {
+    const canUpdate = (
+      organisation: Organisation,
+      loggedUser: User,
+      response: Response
+    ): boolean => {
       if (!organisation.canManage(loggedUser)) {
         response.addError('denied', 'Organisation cannot be updated.')
         return false
@@ -139,7 +147,9 @@ export class OrganisationMemberService {
   ) {}
 
   async setAdmin(dto: AddMemberDto): Promise<Response> {
-    const organisation = (await this.organisationRepo.getOrFail(dto.organisation_uid)) as Organisation
+    const organisation = (await this.organisationRepo.getOrFail(
+      dto.organisation_uid
+    )) as Organisation
 
     if (!organisation.canManage(dto.user)) throw new NotAllowedError('Not allowed')
 
@@ -167,7 +177,9 @@ export class OrganisationMemberService {
   }
 
   async removeAdmin(dto: AddMemberDto): Promise<Response> {
-    const organisation = (await this.organisationRepo.getOrFail(dto.organisation_uid)) as Organisation
+    const organisation = (await this.organisationRepo.getOrFail(
+      dto.organisation_uid
+    )) as Organisation
 
     if (!organisation.canManage(dto.user)) throw new NotAllowedError('Not allowed')
 
@@ -180,7 +192,9 @@ export class OrganisationMemberService {
 
   async removeMemberToOrganisation(dto: AddMemberDto): Promise<Response> {
     return tryCatch(async () => {
-      const organisation = (await this.organisationRepo.getOrFail(dto.organisation_uid)) as Organisation
+      const organisation = (await this.organisationRepo.getOrFail(
+        dto.organisation_uid
+      )) as Organisation
 
       if (!organisation.canManage(dto.user)) throw new NotAllowedError('Not allowed')
 
@@ -200,7 +214,9 @@ export class OrganisationMemberService {
     return tryCatch(async () => {
       const response = new Response()
 
-      const organisation = (await this.organisationRepo.getOrFail(dto.organisation_uid)) as Organisation
+      const organisation = (await this.organisationRepo.getOrFail(
+        dto.organisation_uid
+      )) as Organisation
 
       if (!organisation.canManage(dto.user)) throw new NotAllowedError('Not allowed')
 

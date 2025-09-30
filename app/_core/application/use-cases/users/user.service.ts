@@ -117,7 +117,9 @@ export default class UserService {
 
   async filterUsers(dto: FilterUserDto): Promise<Response> {
     return tryCatch(async (_) => {
-      const organisation = (await this.organisationRepo.getOrFail(dto.organisation_uid)) as Organisation
+      const organisation = (await this.organisationRepo.getOrFail(
+        dto.organisation_uid
+      )) as Organisation
       dto.organisation_id = organisation.id
       const users = await this.userRepo.filter(dto)
       return new Response().addData('users', users)
@@ -126,7 +128,9 @@ export default class UserService {
 
   async filterWithSections(dto: FilterUserDto): Promise<Response> {
     return tryCatch(async (_) => {
-      const organisation = (await this.organisationRepo.getOrFail(dto.organisation_uid)) as Organisation
+      const organisation = (await this.organisationRepo.getOrFail(
+        dto.organisation_uid
+      )) as Organisation
       dto.organisation_id = organisation.id
       const users = await this.userRepo.filterWithSections(dto)
       return new Response().addData('users', users)

@@ -1,4 +1,4 @@
-import * as z from "zod"
+import * as z from 'zod'
 import User from '../../domain/entities/User'
 
 const MIN_AGE = 16
