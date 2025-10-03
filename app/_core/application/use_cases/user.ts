@@ -1,16 +1,16 @@
-import { UserRepository } from '../repositories/UserRepository'
-import { CreateUserDto, CreateUserSchema, GetUserDto } from '../dtos/userDto'
-import User from '../entities/User'
+import { IUserDAO } from '../../domain/dao/user'
+import { ICountryDAO } from '../../domain/dao/country'
+import { CreateUserDto, CreateUserSchema, GetUserDto } from '../dtos/user'
+import User from '../../domain/entities/User'
 import { AlreadyExistsError, NotAllowedError, ValidationError } from '../../utils/errors.utils'
 import bcrypt from 'bcrypt'
-import { UpdateImage } from '../dtos/commonDto'
-import { UpdateUserDto, UpdateUserSchema } from '../dtos/userDto'
-import CountryRepository from '../repositories/CountryRepository'
+import { UpdateImage } from '../dtos/common'
+import { UpdateUserDto, UpdateUserSchema } from '../dtos/user'
 
-export default class UserService {
+export default class UserUseCase {
   constructor(
-    private readonly userRepo: UserRepository,
-    private readonly countryRepo: CountryRepository
+    private readonly userDao: IUserDAO,
+    private readonly countryDao: ICountryDAO
   ) {}
 
   async createUser(input: CreateUserDto): Promise<User> {
@@ -19,32 +19,32 @@ export default class UserService {
 
     const data = parsedInput.data
 
-    const existingUser = await this.userRepo.findOneByEmail(data.email)
+    const existingUser = await this.userDao.findOneByEmail(data.email)
     if (existingUser) throw new AlreadyExistsError('User email already exists')
 
     let user = new User(data)
     user.creator = input.user!
     user.image = 'users/user.png'
     user.password = await bcrypt.hash(user.password!, 6)
-    user = await this.userRepo.save(user)
+    user = await this.userDao.save(user)
 
     return user
   }
 
   async getUser(id: string): Promise<User> {
-    return await this.userRepo.findOrFail(id)
+    return await this.userDao.findOrFail(id)
   }
 
   async removeUser(input: GetUserDto): Promise<void> {
-    const user = await this.userRepo.findOrFail(input.id)
+    const user = await this.userDao.findOrFail(input.id)
     if (!user.canManage(input.user.id)) throw new NotAllowedError('Operation not allowed')
     //TODO: remove old image
 
-    await this.userRepo.remove(user)
+    await this.userDao.remove(user)
   }
 
   async updateUserImage(input: UpdateImage): Promise<User> {
-    const user = await this.userRepo.findOrFail(input.id)
+    const user = await this.userDao.findOrFail(input.id)
     if (!user.canManage(input.user.id)) throw new NotAllowedError('Operation not allowed')
 
     if (input.image !== undefined) {
@@ -52,7 +52,7 @@ export default class UserService {
       user.image = input.image
     }
 
-    await this.userRepo.save(user)
+    await this.userDao.save(user)
 
     return user
   }
@@ -63,9 +63,9 @@ export default class UserService {
 
     const data = parsedInput.data
 
-    const country = await this.countryRepo.findOrFail(data.country_id!)
+    const country = await this.countryDao.findOrFail(data.country_id!)
 
-    const user = await this.userRepo.findOrFail(data.id)
+    const user = await this.userDao.findOrFail(data.id)
     if (!user.canManage(input.user.id)) throw new NotAllowedError('Operation not allowed')
 
     user.country = country
@@ -76,7 +76,7 @@ export default class UserService {
     user.address = data.address
     user.phone = data.phone
 
-    await this.userRepo.save(user)
+    await this.userDao.save(user)
 
     return user
   }

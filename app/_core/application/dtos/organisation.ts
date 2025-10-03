@@ -15,7 +15,7 @@ export const FilterOrganisationSchema = z.object({
 
 export const CreateOrganisationSchema = z.object({
   name: z.string(),
-  country_id: z.number(),
+  country_id: z.string(),
   phone: z.string().nullable(),
   email: z.email().nullable(),
   city: z.string().nullable(),
@@ -31,7 +31,7 @@ export const UpdateOrganisationSchema = z.object({
   address: z.string().nullable(),
   city: z.string().nullable(),
   about: z.string().nullable(),
-  country_id: z.number()
+  country_id: z.string()
 })
 
 export const AddMemberSchema = z.object({

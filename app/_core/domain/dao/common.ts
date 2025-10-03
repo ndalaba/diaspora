@@ -1,6 +1,6 @@
 import AbstractEntity from '../entities/AbstractEntity'
 
-export default interface CommonRepository<T extends AbstractEntity> {
+export interface IDao<T extends AbstractEntity> {
   findOrFail(id: string): Promise<T>
   deleteBy(field: string, value: unknown): Promise<void>
   remove(obj: T): Promise<void>

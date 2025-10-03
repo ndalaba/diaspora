@@ -1,7 +1,7 @@
 import Country from '../entities/Country'
-import CommonRepository from './CommonRepository'
+import { IDao } from './common'
 
-export default interface CountryRepository extends CommonRepository<Country> {
+export interface ICountryDAO extends IDao<Country> {
   findAll(): Promise<Country[]>
   findByName(name: string): Promise<Country | null>
   findByNameOrCode(name: string, code: string): Promise<Country | null>
