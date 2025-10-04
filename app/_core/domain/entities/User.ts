@@ -56,7 +56,6 @@ export default class User extends AbstractEntity {
   about?: string
   lastLogin?: Date
   token?: Token
-  creator?: User
   password?: string
   organisations?: Organisation[]
   country?: Country
@@ -79,10 +78,6 @@ export default class User extends AbstractEntity {
     return this.hasRole(Role.ROLE_ADMIN) || this.hasRole(Role.ROLE_SUPER_ADMIN)
   }
 
-  hasCreator(id: string): boolean {
-    return this.creator?.is(id) || false
-  }
-
   isMemberOf(orgId: string): boolean {
     return this.organisations?.some((m) => m.id === orgId) || false
   }
@@ -90,7 +85,6 @@ export default class User extends AbstractEntity {
   canManage(id: string): boolean {
     return (
       this.is(id) ||
-      this.hasCreator(id) ||
       this.hasAnyRole([Role.ROLE_ADMIN, Role.ROLE_SUPER_ADMIN])
     )
   }

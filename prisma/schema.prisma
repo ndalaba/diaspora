@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(cuid())
+  name      String
+  email     String    @unique
+  role      Int       @default(10)
+  active    Boolean   @default(false)
+  phone     String?
+  profession String?
+  gender    Int?
+  birthDay  Int?
+  birthMonth Int?
+  birthYear Int?
+  address   String?
+  city      String?
+  about     String?
+  lastLogin DateTime?
+  token     Token?
+  password  String
+  organisations Organisation[]
+  country   Country? @relation(fields: [country_id], references: [id])
+  country_id String
+  image     String?
+}
+
+model Token {
+  id        String    @id @default(cuid())
+  token     String
+  expireDate DateTime
+  user      User      @relation(fields: [user_id], references: [id])
+  user_id    String @unique
+}
+
+model Country {
+  id        String    @id @default(cuid())
+  name      String
+  code      String
+  users     User[]
+  organisations Organisation[]
+}
+
+model Organisation {
+  id        String    @id @default(cuid())
+  name      String
+  author    User      @relation(fields: [author_id], references: [id])
+  author_id  String
+  about     String?
+  address   String?
+  phone     String?
+  email     String?
+  logo      String?
+  city      String?
+  country   Country? @relation(fields: [country_id], references: [id])
+  country_id String
+}

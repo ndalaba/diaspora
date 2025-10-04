@@ -51,14 +51,13 @@ export default class OrganisationUseCase {
   }
 
   async updateOrganisation(dto: UpdateOrganisationDto): Promise<Organisation> {
-
     const parsed = UpdateOrganisationSchema.safeParse(dto)
     if (!parsed.success) throw new ValidationError(parsed.error.message)
     const data = parsed.data
 
-    const country = (await this.countryDao.findOrFail(data.country_id))
+    const country = await this.countryDao.findOrFail(data.country_id)
 
-    let organisation = (await this.organisationDao.findOrFail(data.id))
+    let organisation = await this.organisationDao.findOrFail(data.id)
     if (!organisation.canManage(dto.user)) throw new NotAllowedError('Not allowed')
 
     organisation.country = country
